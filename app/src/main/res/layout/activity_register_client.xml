@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register_client"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.aarna.www.registerclientenquiry.registerClient">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <Button
+            android:text="Book"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnBook"
+            android:layout_alignParentTop="true"
+            android:onClick="OnBook" />
+        <Button
+            android:text="Del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:onClick="onDelete"
+            android:id="@+id/btnDelete"
+            android:layout_alignParentTop="true"/>
+        <Button
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/btnReg"
+            android:onClick="OnSave"/>
+        <Button
+            android:text="New"
+            android:layout_width="wrap_content"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:onClick="onNew"
+            android:id="@+id/btnNew"/>
+        <Button
+            android:text="List"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_alignParentTop="true"
+            android:onClick="onRegList"
+            android:id="@+id/btnList" />
+
+
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="55dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <EditText
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:text="Name"
+                    android:id="@+id/etName" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:ems="10"
+                    android:id="@+id/etPhone"
+                    android:text=""
+                    android:layout_weight="1" />
+                <Button
+                    android:text="Call"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:onClick="OnCall" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Spinner
+                    android:layout_width="170dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/spLoc">
+                </Spinner>
+                <TextView
+                    android:text="Offer"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/etOfferPrice"
+                    android:layout_weight="1"
+                    android:text="50000"
+                    android:fontFamily="sans-serif"
+                    android:textSize="11sp" />
+                <TextView
+                    android:text="Asking"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/etAskPrice"
+                    android:layout_weight="1"
+                    android:text="45000"
+                    android:textSize="11sp"
+                    android:fontFamily="sans-serif" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Event Date"
+                    android:layout_height="wrap_content"
+                    android:layout_width="70dp" />
+                <EditText
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/etEvtDt"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:text="...."
+                    android:textSize="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/btnPickEvtDt" />
+                <TextView
+                    android:text="Comments:"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:id="@+id/etComments"
+                    android:layout_weight="1" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Confirm By"
+                    android:layout_height="wrap_content"
+                    android:layout_width="70dp" />
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:id="@+id/etConfirmBy" />
+                <Button
+                    android:text="...."
+                    android:textSize="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/btnPickCnfDt" />
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/spStatus">
+                </Spinner>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+                <Button
+                    android:text="Beach House Bookings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnBHBookings"
+                    android:layout_alignParentTop="true"
+                    android:onClick="OnListBHBookings" />
+                <Button
+                    android:text="Calls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnCallHst"
+                    android:onClick="OnCallHst" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>

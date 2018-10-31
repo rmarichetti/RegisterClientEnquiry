@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">AARNA ClientEnquiry Register</string>
+    <string-array name="locSpn">
+        <item>Party Hall</item>
+        <item>Mahal</item>
+        <item>Beach House</item>
+        <item>Surabi</item>
+    </string-array>
+    <string-array name="Status">
+        <item></item>
+        <item>Interested</item>
+        <item>AlmostReady</item>
+        <item>Booked</item>
+        <item>DoubleBooking</item>
+        <item>Price Bargain</item>
+        <item>NotInterested</item>
+    </string-array>
+</resources>
