@@ -98,7 +98,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 String sName = params[1];
                 String sPhone = params[2];
                 String sEventDate = params[3];
-                String sComments = params[4];
+                String sComments = params[4];//test
                 String sConfirmBy = params[5];
                 String sLoc = params[6];
                 String sClientID = params[7];
