@@ -75,7 +75,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             else if(sType.equals("book")){
                 sURL = "http://210.18.139.72/bookings/convertIntoBooking.php";
                 String sClientID = params[1];
-                post_data = URLEncoder.encode("ClientID", "UTF-8") + "=" + URLEncoder.encode(sClientID, "UTF-8");
+                post_data = URLEncoder.encode("db","UTF-8")+"="+URLEncoder.encode(LoginActivity.sdb,"UTF-8")+"&"
+                        +URLEncoder.encode("ClientID", "UTF-8") + "=" + URLEncoder.encode(sClientID, "UTF-8");
             }
             else if(sType.equals("listRegistrations")){
                 sURL = "http://210.18.139.72/bookings/getRegistrations.php";
@@ -306,7 +307,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 String name="";
                 if (sType.equals("listRegistrations") ) {
                     name=jo.getString("hallLocation");
-                    name = name + "." + jo.getString("EventDate");
+                        name = name + "." + jo.getString("EventDate");
                     name = name + "." + jo.getString("Name");
                     name = name + ":" + jo.getString("Id");
                 }

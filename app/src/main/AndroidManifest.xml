@@ -27,6 +27,7 @@
         <activity android:name=".listRegistrations" />
         <activity android:name=".listBeachBookings" />
         <activity android:name=".ListPayments" />
+        <activity android:name=".listCalls" />
         <activity android:name=".NotificationCall">
             <intent-filter>
                 <action android:name="second_Filter"/>

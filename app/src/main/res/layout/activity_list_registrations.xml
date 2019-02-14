@@ -17,36 +17,35 @@
         android:layout_alignParentStart="true"
         android:id="@+id/linearLayout">
         <TextView
-            android:text="Hall:"
+            android:text="H:"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content" />
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="text"
             android:id="@+id/etFiltHall" />
         <TextView
-            android:text="Name:"
+            android:text="N:"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content" />
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="text"
             android:id="@+id/etFiltName" />
         <Spinner
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/spFiltStatus">
         </Spinner>
 
         <Button
-            android:text="Filter"
-            android:layout_width="100dp"
+            android:text="v"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:layout_alignParentTop="true"
             android:onClick="onFilter"
             android:id="@+id/btnFilter" />

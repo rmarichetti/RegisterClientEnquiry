@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.aarna.www.registerclientenquiry.BackgroundWorker;
 
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -78,7 +79,7 @@ public class registerClient extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        LogCallHst();
+        //LogCallHst();
 
         buttonBHBookings = (Button) findViewById(R.id.btnBHBookings);
         if (sRole.equals("BH") || sRole.equals("Admin")) {
@@ -87,9 +88,19 @@ public class registerClient extends AppCompatActivity {
             buttonBHBookings.setVisibility(View.INVISIBLE);
         }
         bDirectBooking = false;
+
         etName = (EditText) findViewById(R.id.etName);
+        String sPhName = getIntent().getStringExtra(listCalls.ID_PHNMEXTRA);
+        if (sPhName != null){
+            etName.setText(sPhName);
+        }
         //etName.setText(sclDt);
         etPhone = (EditText) findViewById(R.id.etPhone);
+        String sPhNo = getIntent().getStringExtra(listCalls.ID_PHEXTRA);
+        if (sPhNo != null){
+            etPhone.setText(sPhNo);
+        }
+
         etEventDate = (EditText) findViewById(R.id.etEvtDt);
         etComments = (EditText) findViewById(R.id.etComments);
         etConfirmBy = (EditText) findViewById(R.id.etConfirmBy);
@@ -268,6 +279,7 @@ public class registerClient extends AppCompatActivity {
 //        Toast.makeText(registerClient.this, "Calls:" + calld, Toast.LENGTH_LONG).show();
     }
     public void OnCallHst(View view) {
+        startActivity(new Intent(this, listCalls.class));
 
     }
     private void LogCallHst() {
@@ -402,6 +414,25 @@ public class registerClient extends AppCompatActivity {
                 .setNegativeButton("No", dialogClickListener).show();
 
     }
+    public void OnWhatsApp(View view){
+        //https://api.whatsapp.com/send?phone=15551234567
+        //+ etPhone.getText().toString();
+        String sMsg = "testing";
+
+        PackageManager packageManager = getPackageManager();
+        Intent i = new Intent(Intent.ACTION_VIEW);
+
+        try {
+            String url = "https://api.whatsapp.com/send?phone=" +etPhone.getText().toString() + "&text=" + URLEncoder.encode(sMsg, "UTF-8");
+            i.setPackage("com.whatsapp");
+            i.setData(Uri.parse(url));
+            if (i.resolveActivity(packageManager) != null) {
+                startActivity(i);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     public void OnBook(View view){
         if (bTimeout){
             Toast.makeText(registerClient.this, "Timeout.  Please relogin.", Toast.LENGTH_LONG).show();
@@ -463,7 +494,10 @@ public class registerClient extends AppCompatActivity {
         backgroundWorker.execute(sType, sName, sPhone, sEventDate, sComments, sConfirmBy, sLoc, sClient, lOfferPrice, lAskingPrice, sStatus);
 
         String sWhatsupinfo="";
-        if (sClient != "") sWhatsupinfo += "Update::\n";
+        if (sClient != null) {
+            sWhatsupinfo += "Update::\n";
+        }
+        //if (sClient != "")
         sWhatsupinfo += "Name:" + sName + "  EventDate:" + sEventDate + " Phone:" + sPhone + " Comments:" + sComments + " ConfirmBy:" + sConfirmBy + " Loc:" + sLoc;
         sWhatsupinfo += "Offer Price:" + lOfferPrice + "Asking Price:"+lAskingPrice;
                 //openConversationWithWhatsapp("Marichetty");
@@ -605,7 +639,7 @@ public class registerClient extends AppCompatActivity {
 
         timer = new Timer();
         DisableButtons disableButtons = new DisableButtons();
-        timer.schedule(disableButtons,  900000); //auto logout in 5 minutes
+        timer.schedule(disableButtons,  1800000); //auto logout in 10 minutes
     }
 
     @Override

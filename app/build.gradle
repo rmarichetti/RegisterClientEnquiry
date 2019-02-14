@@ -1,12 +1,22 @@
 apply plugin: 'com.android.application'
+buildscript {
+    repositories {
+        google() // `enter code here`
+    }
+}
 
+allprojects {
+    repositories {
+        google() // `<-- here`
+    }
+}
 android {
     compileSdkVersion 25
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.aarna.www.registerclientenquiry"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
