@@ -75,8 +75,10 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             else if(sType.equals("book")){
                 sURL = "http://210.18.139.72/bookings/convertIntoBooking.php";
                 String sClientID = params[1];
+                //String test = "BookingsAnk";//LoginActivity.sdb;
                 post_data = URLEncoder.encode("db","UTF-8")+"="+URLEncoder.encode(LoginActivity.sdb,"UTF-8")+"&"
                         +URLEncoder.encode("ClientID", "UTF-8") + "=" + URLEncoder.encode(sClientID, "UTF-8");
+                //post_data = URLEncoder.encode("db","UTF-8")+"="+URLEncoder.encode(LoginActivity.sdb,"UTF-8")+"&"
             }
             else if(sType.equals("listRegistrations")){
                 sURL = "http://210.18.139.72/bookings/getRegistrations.php";
@@ -105,7 +107,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 String sClientID = params[7];
                 String lOfferPrice = params[8];
                 String lAskingPrice = params[9];
-                String sStatus = params[10];
+                String lPAX = params[10];
+                String sStatus = params[11];
                 if (sClientID== null)
                     sClientID = "";
                 post_data = URLEncoder.encode("db","UTF-8")+"="+URLEncoder.encode(LoginActivity.sdb,"UTF-8")+"&"
@@ -118,6 +121,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                         +URLEncoder.encode("ClientID","UTF-8")+"="+URLEncoder.encode(sClientID,"UTF-8")+"&"
                         +URLEncoder.encode("OfferPrice","UTF-8")+"="+URLEncoder.encode(lOfferPrice,"UTF-8")+"&"
                         +URLEncoder.encode("AskingPrice","UTF-8")+"="+URLEncoder.encode(lAskingPrice,"UTF-8")+"&"
+                        +URLEncoder.encode("PAX","UTF-8")+"="+URLEncoder.encode(lPAX,"UTF-8")+"&"
                         +URLEncoder.encode("Status","UTF-8")+"="+URLEncoder.encode(sStatus,"UTF-8")+"&"
                         +URLEncoder.encode("UserID","UTF-8")+"="+URLEncoder.encode(LoginActivity.sUserid,"UTF-8");
             }

@@ -42,7 +42,7 @@ import java.util.TimerTask;
 
 
 public class registerClient extends AppCompatActivity {
-    public static EditText etName, etPhone, etEventDate, etComments, etConfirmBy, etOfferPrice, etAskingPrice;
+    public static EditText etName, etPhone, etEventDate, etComments, etConfirmBy, etOfferPrice, etAskingPrice, etPAX;
     public static Spinner locSpinner, statusSpinner;
     private int mYear, mMonth, mDay;
     public static String sClient;
@@ -106,6 +106,7 @@ public class registerClient extends AppCompatActivity {
         etConfirmBy = (EditText) findViewById(R.id.etConfirmBy);
         etOfferPrice = (EditText) findViewById(R.id.etOfferPrice);
         etAskingPrice = (EditText) findViewById(R.id.etAskPrice);
+        etPAX = (EditText) findViewById(R.id.etPAX);
         if (sClient != null) {
             pd = new ProgressDialog(this);
             pd.setMessage("loading");
@@ -485,13 +486,14 @@ public class registerClient extends AppCompatActivity {
         String sConfirmBy = etConfirmBy.getText().toString();
         String lOfferPrice = etOfferPrice.getText().toString();
         String lAskingPrice = etAskingPrice.getText().toString();
+        String lPAX = etPAX.getText().toString();
         //String sLoc = etLoc.getText().toString();
         //locSpinner.get
         String sType = "register";
 
 
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute(sType, sName, sPhone, sEventDate, sComments, sConfirmBy, sLoc, sClient, lOfferPrice, lAskingPrice, sStatus);
+        backgroundWorker.execute(sType, sName, sPhone, sEventDate, sComments, sConfirmBy, sLoc, sClient, lOfferPrice, lAskingPrice, lPAX, sStatus);
 
         String sWhatsupinfo="";
         if (sClient != null) {

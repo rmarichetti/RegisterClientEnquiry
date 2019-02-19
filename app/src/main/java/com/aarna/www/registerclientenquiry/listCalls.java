@@ -45,7 +45,7 @@ public class listCalls extends AppCompatActivity {
         }
         else {
             final ArrayList<String> callList = new ArrayList<>();
-            int noOfPhoneCalls =30;
+            int noOfPhoneCalls =300;
             Cursor cursor = listCalls.this.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " DESC");
             int number = cursor.getColumnIndex(CallLog.Calls.NUMBER);
             //int name = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
