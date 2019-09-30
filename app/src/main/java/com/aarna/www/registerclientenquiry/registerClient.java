@@ -5,7 +5,6 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,9 +26,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
-
-import com.aarna.www.registerclientenquiry.BackgroundWorker;
 
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -43,11 +41,12 @@ import java.util.TimerTask;
 
 public class registerClient extends AppCompatActivity {
     public static EditText etName, etPhone, etEventDate, etComments, etConfirmBy, etOfferPrice, etAskingPrice, etPAX;
+    public static Switch swNonVeg, swPhoneEnq;
     public static Spinner locSpinner, statusSpinner;
     private int mYear, mMonth, mDay;
     public static String sClient;
     public static boolean bTimeout, bDirectBooking;
-    public String sUserid, sRole;//, sclDt;
+    public String sUserid, sRole; //, bookedVal;//, sclDt;
     public Date dclDt;
     private Button buttonBHBookings;
     private ProgressDialog pd;
@@ -55,8 +54,10 @@ public class registerClient extends AppCompatActivity {
     public final static String USERROLE_EXTRA = "com.aarna.www.registerclientenquiry.MySQL._USERROLE";
     //public final static String USERCLDT_EXTRA = "com.aarna.www.registerclientenquiry.MySQL._USERCLDT";
     private Timer timer;
-    private String current = "";
+    private String currentEvt = "";
+    private String currentConfm = "";
     private String ddmmyyyyhha = "DDMMYYYYHH#";
+    private String ddmm = "DDMM";
     private String sLoc, sStatus;
 
     @Override
@@ -89,6 +90,8 @@ public class registerClient extends AppCompatActivity {
         }
         bDirectBooking = false;
 
+        swNonVeg = (Switch) findViewById(R.id.swNonVeg);
+        swPhoneEnq = (Switch) findViewById(R.id.swPhoneEnq);
         etName = (EditText) findViewById(R.id.etName);
         String sPhName = getIntent().getStringExtra(listCalls.ID_PHNMEXTRA);
         if (sPhName != null){
@@ -150,17 +153,83 @@ public class registerClient extends AppCompatActivity {
         });
 
         final Calendar myCalendar = Calendar.getInstance();
-        etEventDate.addTextChangedListener(new TextWatcher() {
+        final int curYr = Integer.parseInt(new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date()));
+        //ddmmCurYr += curYr;
+
+        etConfirmBy.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().equals(current)) {
+                if (!s.toString().equals(currentConfm)) {
                     String dtEnt = s.toString();
                     if (dtEnt.indexOf('-') > 0) {
                         String dtDay = dtEnt.substring(0, dtEnt.indexOf("-"));
                         String dtMon = dtEnt.substring(dtEnt.indexOf("-") + 1, dtEnt.lastIndexOf("-"));
                     }
                     String clean = s.toString().replaceAll("[^\\d.ap]|\\.", "");
-                    String cleanC = current.replaceAll("[^\\d.ap]|\\.", "");
+                    String cleanC = currentConfm.replaceAll("[^\\d.ap]|\\.", "");
+
+                    int cl = clean.length();
+                    int sel = cl;
+                    for (int i = 2; i <= cl && i < 9; i += 2) {
+                        sel++;
+                    }
+                    //Fix for pressing delete next to a forward slash
+                    if (clean.equals(cleanC)) sel--;
+
+                    if (clean.length() < 4) {
+                        clean = clean + ddmm.substring(clean.length());
+                    } else {
+                        //This part makes sure that when we finish entering numbers
+                        //the date is correct, fixing it otherwise
+                        int day = Integer.parseInt(clean.substring(0, 2));
+                        int mon = Integer.parseInt(clean.substring(2, 4));
+                        //int year = Integer.parseInt(clean.substring(4, 8));
+
+                        mon = mon < 1 ? 1 : mon > 12 ? 12 : mon;
+                        myCalendar.set(Calendar.MONTH, mon - 1);
+                        myCalendar.set(Calendar.YEAR, curYr);
+                        // ^ first set year for the line below to work correctly
+                        //with leap years - otherwise, date e.g. 29/02/2012
+                        //would be automatically corrected to 28/02/2012
+
+                        day = (day > myCalendar.getActualMaximum(Calendar.DATE)) ? myCalendar.getActualMaximum(Calendar.DATE) : day;
+                        clean = String.format("%02d%02d", day, mon);
+                    }
+
+                    clean = String.format("%s/%s", clean.substring(0, 2),
+                            clean.substring(2, 4));
+
+                    sel = sel < 0 ? 0 : sel;
+                    currentConfm = clean;
+                    etConfirmBy.setText(currentConfm);
+                    etConfirmBy.setSelection(sel < currentConfm.length() ? sel : currentConfm.length());
+                }
+
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+                //Toast.makeText(registerClient.this, "after text changed.", Toast.LENGTH_LONG).show();
+            }
+
+        });
+        etEventDate.addTextChangedListener(new TextWatcher() {
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().equals(currentEvt)) {
+                    String dtEnt = s.toString();
+                    if (dtEnt.indexOf('-') > 0) {
+                        String dtDay = dtEnt.substring(0, dtEnt.indexOf("-"));
+                        String dtMon = dtEnt.substring(dtEnt.indexOf("-") + 1, dtEnt.lastIndexOf("-"));
+                    }
+                    String clean = s.toString().replaceAll("[^\\d.ap]|\\.", "");
+                    String cleanC = currentEvt.replaceAll("[^\\d.ap]|\\.", "");
 
                     int cl = clean.length();
                     int sel = cl;
@@ -202,9 +271,9 @@ public class registerClient extends AppCompatActivity {
                             clean.substring(10, 11));
 
                     sel = sel < 0 ? 0 : sel;
-                    current = clean;
-                    etEventDate.setText(current);
-                    etEventDate.setSelection(sel < current.length() ? sel : current.length());
+                    currentEvt = clean;
+                    etEventDate.setText(currentEvt);
+                    etEventDate.setSelection(sel < currentEvt.length() ? sel : currentEvt.length());
                 }
 
             }
@@ -449,7 +518,28 @@ public class registerClient extends AppCompatActivity {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
-
+/*
+                        AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
+                        alert.setTitle("Booked for Amount Base Rate");
+                        final EditText input = new EditText(getApplicationContext());
+                        input.setText("250000");
+                        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        input.setRawInputType(Configuration.KEYBOARD_12KEY);
+                        alert.setView(input);
+                        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                //Put actions for OK button here
+                                bookedVal = input.getText().toString();
+                            }
+                        });
+                        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                //Put actions for CANCEL button here, or leave in blank
+                                bookedVal = "0";
+                            }
+                        });
+                        alert.show();
+*/
                         String sType = "book";
                         String sName = etName.getText().toString();
                         String sEventDate = etEventDate.getText().toString();
@@ -459,6 +549,7 @@ public class registerClient extends AppCompatActivity {
 
                         String sWhatsupinfo="";
                         if (sClient != "") sWhatsupinfo += "BOOKED::\n";
+                        //sWhatsupinfo += "For Rs:" + bookedVal + "Name:" + sName + "  EventDate:" + sEventDate + " Loc:" + sLoc;
                         sWhatsupinfo += "Name:" + sName + "  EventDate:" + sEventDate + " Loc:" + sLoc;
                         sendWhatsAppMsg(sWhatsupinfo);
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -487,21 +578,28 @@ public class registerClient extends AppCompatActivity {
         String lOfferPrice = etOfferPrice.getText().toString();
         String lAskingPrice = etAskingPrice.getText().toString();
         String lPAX = etPAX.getText().toString();
+        String sNonVeg;
+        if(swNonVeg.isChecked()) sNonVeg="Y";
+        else sNonVeg="N";
+        String sPhEnq;
+        if(swPhoneEnq.isChecked()) sPhEnq="Y";
+        else sPhEnq="N";
         //String sLoc = etLoc.getText().toString();
         //locSpinner.get
         String sType = "register";
 
 
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute(sType, sName, sPhone, sEventDate, sComments, sConfirmBy, sLoc, sClient, lOfferPrice, lAskingPrice, lPAX, sStatus);
+        backgroundWorker.execute(sType, sName, sPhone, sEventDate, sComments, sConfirmBy, sLoc, sClient, lOfferPrice, lAskingPrice,
+                lPAX, sStatus, sNonVeg, sPhEnq);
 
         String sWhatsupinfo="";
         if (sClient != null) {
-            sWhatsupinfo += "Update::\n";
+            sWhatsupinfo += "Update:: " + sStatus + "\n";
         }
         //if (sClient != "")
-        sWhatsupinfo += "Name:" + sName + "  EventDate:" + sEventDate + " Phone:" + sPhone + " Comments:" + sComments + " ConfirmBy:" + sConfirmBy + " Loc:" + sLoc;
-        sWhatsupinfo += "Offer Price:" + lOfferPrice + "Asking Price:"+lAskingPrice;
+        sWhatsupinfo += "Name:" + sName +" Status:" + sStatus + "  EventDate:" + sEventDate + " Phone:" + sPhone + " Comments:" + sComments + " ConfirmBy:" + sConfirmBy + " Loc:" + sLoc;
+        sWhatsupinfo += "Offer Price:" + lOfferPrice + "Asking Price:"+lAskingPrice + " PhEnq:"+sPhEnq;
                 //openConversationWithWhatsapp("Marichetty");
         sendWhatsAppMsg(sWhatsupinfo);
 

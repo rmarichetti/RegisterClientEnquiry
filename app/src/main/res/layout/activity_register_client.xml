@@ -134,7 +134,7 @@
                     android:layout_width="wrap_content" />
 
                 <EditText
-                    android:layout_width="100dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
@@ -149,7 +149,7 @@
                     android:layout_width="wrap_content" />
 
                 <EditText
-                    android:layout_width="100dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
@@ -158,6 +158,15 @@
                     android:text="45000"
                     android:textSize="11sp"
                     android:fontFamily="sans-serif" />
+                <TextView
+                    android:text="PAX:"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+                <EditText
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:id="@+id/etPAX" />
 
             </LinearLayout>
             <LinearLayout
@@ -202,15 +211,16 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:text="No of Guests:"
+                <Switch
+                    android:id="@+id/swNonVeg"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_width="90dp" />
-                <EditText
-                    android:layout_width="50dp"
+                    android:text="Non Veg:" />
+                <Switch
+                    android:id="@+id/swPhoneEnq"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:id="@+id/etPAX" />
+                    android:text="Phone Enq:" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -223,7 +233,8 @@
                 <EditText
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="number"
+                    android:ems="10"
                     android:id="@+id/etConfirmBy" />
                 <Button
                     android:text="...."

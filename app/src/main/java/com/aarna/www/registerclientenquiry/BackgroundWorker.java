@@ -1,11 +1,8 @@
 package com.aarna.www.registerclientenquiry;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-//import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,10 +26,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-
-/**
- * Created by thirumalai on 11.12.17.
- */
 
 public class BackgroundWorker extends AsyncTask<String,Void,String> {
     GridView gv;
@@ -109,6 +102,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 String lAskingPrice = params[9];
                 String lPAX = params[10];
                 String sStatus = params[11];
+                String sNonVeg = params[12];
+                String sPhEnq = params[13];
                 if (sClientID== null)
                     sClientID = "";
                 post_data = URLEncoder.encode("db","UTF-8")+"="+URLEncoder.encode(LoginActivity.sdb,"UTF-8")+"&"
@@ -123,6 +118,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                         +URLEncoder.encode("AskingPrice","UTF-8")+"="+URLEncoder.encode(lAskingPrice,"UTF-8")+"&"
                         +URLEncoder.encode("PAX","UTF-8")+"="+URLEncoder.encode(lPAX,"UTF-8")+"&"
                         +URLEncoder.encode("Status","UTF-8")+"="+URLEncoder.encode(sStatus,"UTF-8")+"&"
+                        +URLEncoder.encode("NonVeg","UTF-8")+"="+URLEncoder.encode(sNonVeg,"UTF-8")+"&"
+                        +URLEncoder.encode("PhEnq","UTF-8")+"="+URLEncoder.encode(sPhEnq,"UTF-8")+"&"
                         +URLEncoder.encode("UserID","UTF-8")+"="+URLEncoder.encode(LoginActivity.sUserid,"UTF-8");
             }
             else if(sType.equals("callLog")){
@@ -227,7 +224,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             {
                 alertDialog.setMessage(sResult);
                 alertDialog.show();
-
                 /*context.startActivity(new Intent(context, registerClient.class));
                 registerClient.sUserid = sResult.substring(sResult.indexOf(":") + 1,sResult.indexOf("Role") );
                 */
@@ -286,12 +282,16 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 registerClient.etComments.setText(sComments);
                 String sLoc = (String)((String) jsonObject.get("hallLocation")).toUpperCase();
                 sLoc.replaceAll(" ","");
-                int iLoc = (sLoc.compareTo("PARTY HALL")==0)? 0:(sLoc.compareTo("MAHAL")==0)? 1:(sLoc.compareTo("BEACH HOUSE")==0)? 2:3;
+                int iLoc = (sLoc.compareTo("PARTYHALL")==0)? 0:(sLoc.compareTo("MAHAL")==0)? 1:(sLoc.compareTo("BEACHHOUSE")==0)? 2:3;
                 registerClient.locSpinner.setSelection(iLoc);
                 String sStatus = (String) jsonObject.get("Status");
                 int iStatus = (sStatus.compareTo("Interested")==0)? 1:(sStatus.compareTo("AlmostReady")==0)? 2:(sStatus.compareTo("Booked")==0)? 3:
                         (sStatus.compareTo("DoubleBooking")==0)? 4:(sStatus.compareTo("Price Bargain")==0)? 5:(sStatus.compareTo("NotInterested")==0)? 6:0;
                 registerClient.statusSpinner.setSelection(iStatus);
+                String sNonVeg = (String)jsonObject.get("NonVeg");
+                if (sNonVeg.contains("Y")) registerClient.swNonVeg.setChecked(true);
+                String sPhEnq = (String)jsonObject.get("PhEnq");
+                if (sPhEnq.contains("Y")) registerClient.swPhoneEnq.setChecked(true);
             }
         } catch (JSONException e) {
             e.printStackTrace();
